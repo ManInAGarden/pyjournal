@@ -1,0 +1,10 @@
+Include
+Lib
+Scripts
+tcl
+*.json
+__pycache__
+*.pyc
+.vscode
+.vscode/*
+
