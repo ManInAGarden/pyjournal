@@ -7,4 +7,10 @@ __pycache__
 *.pyc
 .vscode
 .vscode/*
+lib64
+lib
+include
+bin
+share
+pyvenv.cfg
 
