@@ -1,6 +1,7 @@
 """Hauptmodul für PyJournal
 """
 import datetime
+import keyword
 import wx
 import wx.stc
 
@@ -11,45 +12,82 @@ class PyjMain(wx.Frame):
     """
     def __init__(self, *args, **kw):
         """Konstruktor für den PyjMain Frame"""
-        # ensure the parent's __init__ is called
         super().__init__(*args, **kw)
 
-        # create a panel in the frame
-        #pnl = wx.Panel(self)
         sizer = wx.BoxSizer()
 
-         # create a menu bar
         self.create_menu()
-
         self.create_day_tree()
-
+        
         # and a status bar
         self.CreateStatusBar()
         self.SetStatusText("Welcome to Py-Journal")
 
         sizer.Add(self.day_tree, 2, flag= wx.EXPAND)
-<<<<<<< HEAD
-        self.create_day_editor(sizer)
-=======
-        self.day_editor = wx.stc.StyledTextCtrl(self)
-        self.day_editor.SetLexer(wx.stc.STC_LEX_PYTHON)
-        self.day_editor.StyleSetForeground(wx.stc.STC_C_COMMENT, wx.Colour(150,150,150))
-        self.day_editor.StyleSetForeground(wx.stc.STC_C_STRING, wx.Colour(150,0,0))
-        self.day_editor.StyleSetForeground(wx.stc.STC_C_IDENTIFIER, wx.Colour(40,0,60))
-        #wx.stc.T("return for while break continue")
-        self.day_editor.SetKeyWords(0, "return for while break continue")
-        self.day_editor.SetKeyWords(1, "const int float void char double")
-        self.day_editor.SetKeyWords(2, "def class")
-        sizer.Add(self.day_editor, 8, flag= wx.EXPAND)
->>>>>>> dd7ca9b9677ad18c6377b0a9962b3aefd49f7901
+        self.day_editor = self.create_day_editor()
+        sizer.Add(self.day_editor, 8, flag= wx.EXPAND)        
         sizer.SetSizeHints(self)
         self.SetSizer(sizer)
-        self.day_editor = self.create_day_editor(self)
-        sizer.Add(self.day_editor, 8, flag= wx.EXPAND)
 
-    def create_day_editor(self, sizer):
-        editor = wx.stc.StyledTextCtrl(self)
+    def create_day_editor(self):
+        """Den Editor für die Bearbeitung des tagesjournals aufbauen"""
+        editor = wx.stc.StyledTextCtrl(self, size=wx.Size(500, 300))
         editor.SetLexer(wx.stc.STC_LEX_PYTHON)
+        keyw = "".join(keyword.kwlist)
+        editor.SetKeyWords(0, keyw)
+        if wx.Platform == '__WXMSW__':
+            faces = {'times': 'Times New Roman',
+                     'mono' : 'Courier New',
+                     'helv' : 'Arial',
+                     'other': 'Comic Sans MS',
+                     'size' : 10,
+                     'size2': 8,
+                    }
+        else:
+            faces = {'times': 'Times',
+                     'mono' : 'Courier',
+                     'helv' : 'Helvetica',
+                     'other': 'new century schoolbook',
+                     'size' : 12,
+                     'size2': 10,
+                    }
+
+            # Global default styles for all languages
+            self.StyleSetSpec(wx.stc.STC_STYLE_DEFAULT,"face:%(helv)s,size:%(size)d" % faces)
+            self.StyleSetSpec(wx.stc.STC_STYLE_LINENUMBER,  "back:#C0C0C0,face:%(helv)s,size:%(size2)d" % faces)
+            self.StyleSetSpec(wx.stc.STC_STYLE_CONTROLCHAR, "face:%(other)s" % faces)
+            self.StyleSetSpec(wx.stc.STC_STYLE_BRACELIGHT,  "fore:#FFFFFF,back:#0000FF,bold")
+            self.StyleSetSpec(wx.stc.STC_STYLE_BRACEBAD,    "fore:#000000,back:#FF0000,bold")
+
+            # Python styles
+            # White space
+            self.StyleSetSpec(wx.stc.STC_P_DEFAULT, "fore:#808080,face:%(helv)s,size:%(size)d" % faces)
+            # Comment
+            self.StyleSetSpec(wx.stc.STC_P_COMMENTLINE, "fore:#007F00,face:%(other)s,size:%(size)d" % faces)
+            # Number
+            self.StyleSetSpec(wx.stc.STC_P_NUMBER, "fore:#007F7F,size:%(size)d" % faces)
+            # String
+            self.StyleSetSpec(wx.stc.STC_P_STRING, "fore:#7F007F,italic,face:%(times)s,size:%(size)d" % faces)
+            # Single quoted string
+            self.StyleSetSpec(wx.stc.STC_P_CHARACTER, "fore:#7F007F,italic,face:%(times)s,size:%(size)d" % faces)
+            # Keyword
+            self.StyleSetSpec(wx.stc.STC_P_WORD, "fore:#00007F,bold,size:%(size)d" % faces)
+            # Triple quotes
+            self.StyleSetSpec(wx.stc.STC_P_TRIPLE, "fore:#7F0000,size:%(size)d" % faces)
+            # Triple double quotes
+            self.StyleSetSpec(wx.stc.STC_P_TRIPLEDOUBLE, "fore:#7F0000,size:%(size)d" % faces)
+            # Class name definition
+            self.StyleSetSpec(wx.stc.STC_P_CLASSNAME, "fore:#0000FF,bold,underline,size:%(size)d" % faces)
+            # Function or method name definition
+            self.StyleSetSpec(wx.stc.STC_P_DEFNAME, "fore:#007F7F,bold,size:%(size)d" % faces)
+            # Operators
+            self.StyleSetSpec(wx.stc.STC_P_OPERATOR, "bold,size:%(size)d" % faces)
+            # Identifiers
+            self.StyleSetSpec(wx.stc.STC_P_IDENTIFIER, "fore:#808080,face:%(helv)s,size:%(size)d" % faces)
+            # Comment-blocks
+            self.StyleSetSpec(wx.stc.STC_P_COMMENTBLOCK, "fore:#7F7F7F,size:%(size)d" % faces)
+            # End of line where string is not closed
+            self.StyleSetSpec(wx.stc.STC_P_STRINGEOL, "fore:#000000,face:%(mono)s,back:#E0C0E0,eol,size:%(size)d" % faces)
         return editor
 
     def create_menu(self):
