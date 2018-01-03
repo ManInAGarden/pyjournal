@@ -28,7 +28,20 @@ class PyjMain(wx.Frame):
         self.SetStatusText("Welcome to Py-Journal")
 
         sizer.Add(self.day_tree, 2, flag= wx.EXPAND)
+<<<<<<< HEAD
         self.create_day_editor(sizer)
+=======
+        self.day_editor = wx.stc.StyledTextCtrl(self)
+        self.day_editor.SetLexer(wx.stc.STC_LEX_PYTHON)
+        self.day_editor.StyleSetForeground(wx.stc.STC_C_COMMENT, wx.Colour(150,150,150))
+        self.day_editor.StyleSetForeground(wx.stc.STC_C_STRING, wx.Colour(150,0,0))
+        self.day_editor.StyleSetForeground(wx.stc.STC_C_IDENTIFIER, wx.Colour(40,0,60))
+        #wx.stc.T("return for while break continue")
+        self.day_editor.SetKeyWords(0, "return for while break continue")
+        self.day_editor.SetKeyWords(1, "const int float void char double")
+        self.day_editor.SetKeyWords(2, "def class")
+        sizer.Add(self.day_editor, 8, flag= wx.EXPAND)
+>>>>>>> dd7ca9b9677ad18c6377b0a9962b3aefd49f7901
         sizer.SetSizeHints(self)
         self.SetSizer(sizer)
         self.day_editor = self.create_day_editor(self)
