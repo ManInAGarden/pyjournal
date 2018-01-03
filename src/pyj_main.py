@@ -1,7 +1,8 @@
 """Hauptmodul für PyJournal
 """
-import wx, wx.stc
 import datetime
+import wx
+import wx.stc
 
 from pyj_daydata import DayData
 
@@ -9,6 +10,7 @@ class PyjMain(wx.Frame):
     """Haupt-Klasse für Py-Journal
     """
     def __init__(self, *args, **kw):
+        """Konstruktor für den PyjMain Frame"""
         # ensure the parent's __init__ is called
         super().__init__(*args, **kw)
 
@@ -17,22 +19,27 @@ class PyjMain(wx.Frame):
         sizer = wx.BoxSizer()
 
          # create a menu bar
-        self.MakeMenuBar()
+        self.create_menu()
 
-        self.CreateDayTree()
+        self.create_day_tree()
 
         # and a status bar
         self.CreateStatusBar()
         self.SetStatusText("Welcome to Py-Journal")
 
         sizer.Add(self.day_tree, 2, flag= wx.EXPAND)
-        self.day_editor = wx.stc.StyledTextCtrl(self)
-        self.day_editor.SetLexerLanguage("markdown")
-        sizer.Add(self.day_editor, 8, flag= wx.EXPAND)
+        self.create_day_editor(sizer)
         sizer.SetSizeHints(self)
         self.SetSizer(sizer)
+        self.day_editor = self.create_day_editor(self)
+        sizer.Add(self.day_editor, 8, flag= wx.EXPAND)
 
-    def MakeMenuBar(self):
+    def create_day_editor(self, sizer):
+        editor = wx.stc.StyledTextCtrl(self)
+        editor.SetLexer(wx.stc.STC_LEX_PYTHON)
+        return editor
+
+    def create_menu(self):
         """Das Hauptmenü aufbauen
         """
         file_men = wx.Menu()
@@ -58,7 +65,7 @@ class PyjMain(wx.Frame):
         self.SetMenuBar(menu_bar)
        
 
-    def CreateDayTree(self):
+    def create_day_tree(self):
         self.day_tree = wx.TreeCtrl(self, size=wx.Size(150, 300))
         root = self.day_tree.AddRoot("Root")
 
