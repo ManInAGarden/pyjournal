@@ -56,11 +56,11 @@ class PyjMain(wx.Frame):
 
         # Global default styles for all languages
         editor.StyleSetSpec(wx.stc.STC_STYLE_DEFAULT,
-                            "face:%(helv)s,size:%(size)d" % faces)
+                            "face:%(mono)s,size:%(size)d" % faces)
         editor.StyleSetSpec(wx.stc.STC_STYLE_LINENUMBER,
-                            "back:#C0C0C0,face:%(helv)s,size:%(size2)d" % faces)
+                            "back:#C0C0C0,face:%(mono)s,size:%(size2)d" % faces)
         editor.StyleSetSpec(wx.stc.STC_STYLE_CONTROLCHAR,
-                            "face:%(other)s" % faces)
+                            "face:%(mono)s" % faces)
         editor.StyleSetSpec(wx.stc.STC_STYLE_BRACELIGHT,
                             "fore:#FFFFFF,back:#0000FF,bold")
         editor.StyleSetSpec(wx.stc.STC_STYLE_BRACEBAD,
@@ -69,19 +69,19 @@ class PyjMain(wx.Frame):
         # Python styles
         # White space
         editor.StyleSetSpec(wx.stc.STC_P_DEFAULT,
-                            "fore:#808080,face:%(helv)s,size:%(size)d" % faces)
+                            "fore:#808080,face:%(mono)s,size:%(size)d" % faces)
         # Comment
         editor.StyleSetSpec(wx.stc.STC_P_COMMENTLINE,
-                            "fore:#007F00,face:%(other)s,size:%(size)d" % faces)
+                            "fore:#007F00,face:%(mono)s,size:%(size)d" % faces)
         # Number
         editor.StyleSetSpec(wx.stc.STC_P_NUMBER,
                             "fore:#007F7F,size:%(size)d" % faces)
         # String
         editor.StyleSetSpec(wx.stc.STC_P_STRING,
-                            "fore:#7F007F,italic,face:%(times)s,size:%(size)d" % faces)
+                            "fore:#7F007F,italic,face:%(mono)s,size:%(size)d" % faces)
         # Single quoted string
         editor.StyleSetSpec(
-            wx.stc.STC_P_CHARACTER, "fore:#7F007F,italic,face:%(times)s,size:%(size)d" % faces)
+            wx.stc.STC_P_CHARACTER, "fore:#7F007F,italic,face:%(mono)s,size:%(size)d" % faces)
         # Keyword
         editor.StyleSetSpec(wx.stc.STC_P_WORD,
                             "fore:#00007F,bold,size:%(size)d" % faces)
@@ -102,7 +102,7 @@ class PyjMain(wx.Frame):
                             "bold,size:%(size)d" % faces)
         # Identifiers
         editor.StyleSetSpec(wx.stc.STC_P_IDENTIFIER,
-                            "fore:#808080,face:%(helv)s,size:%(size)d" % faces)
+                            "fore:#808080,face:%(mono)s,size:%(size)d" % faces)
         # Comment-blocks
         editor.StyleSetSpec(wx.stc.STC_P_COMMENTBLOCK,
                             "fore:#7F7F7F,size:%(size)d" % faces)
